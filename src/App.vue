@@ -5,9 +5,11 @@
       <!-- 动态显示侧边栏 -->
       <Sidebar
         :sidebar="$config.sidebar"
+        :isSidebarOpen="isSidebarOpen"
         :class="{ show: isSidebarOpen }"
         class="sidebar-container bg-gray-100 dark:bg-gray-800"
         @close-sidebar="toggleSidebar"
+        :toggleSidebar="toggleSidebar"
       />
       <div
         class="content-container flex-1 overflow-y-auto p-6 dark:bg-gray-900"
