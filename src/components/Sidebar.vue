@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { reactive, onMounted } from "vue";
+import { reactive, ref, onMounted, onUnmounted } from "vue";
 
 export default {
   props: {
@@ -95,13 +95,29 @@ export default {
   },
   setup(props) {
     const expandedMenu = reactive({});
-    const isDesktop = window.innerWidth >= 640;
+    const isDesktop = ref(false);
 
-    // 初始化菜单展开状态
+    const updateIsDesktop = () => {
+      if (typeof window !== "undefined") {
+        isDesktop.value = window.innerWidth >= 640;
+      }
+    };
+
     onMounted(() => {
       props.sidebar.forEach((item, index) => {
         expandedMenu[index] = item.expanded !== undefined ? item.expanded : true;
       });
+
+      updateIsDesktop();
+      if (typeof window !== "undefined") {
+        window.addEventListener("resize", updateIsDesktop);
+      }
+    });
+
+    onUnmounted(() => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", updateIsDesktop);
+      }
     });
 
     return { expandedMenu, isDesktop };
@@ -117,7 +133,6 @@ export default {
       } else {
         this.$router.push(fullPath);
       }
-      // 如果是移动端，关闭侧边栏
       if (!this.isDesktop) {
         this.toggleSidebar();
       }
