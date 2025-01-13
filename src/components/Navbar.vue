@@ -1,18 +1,25 @@
 <template>
   <nav class="bg-white dark:bg-gray-900 shadow-md fixed w-full z-50">
     <div class="container mx-auto flex justify-between items-center py-4 px-6">
+      <!-- Logo 和标题 -->
       <div class="flex items-center">
         <img :src="$config.logo" alt="Logo" class="h-10 w-auto mr-3" />
         <span class="text-xl font-semibold text-gray-900 dark:text-white">
           {{ $config.title }}
         </span>
       </div>
-      <!-- <ul class="hidden md:flex space-x-6">
-        <li v-for="item in nav" :key="item.link">
-          <router-link :to="item.link" class="text-gray-900 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">{{ item.text }}</router-link>
-        </li>
-      </ul> -->
-      <div class="flex items-center">
+
+      <!-- 移动端菜单按钮 -->
+      <button
+        @click="$emit('toggle-sidebar')"
+        class="md:hidden text-gray-900 dark:text-gray-300 focus:outline-none"
+      >
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+
+      <!-- 桌面导航和功能按钮 -->
+      <div class="hidden md:flex items-center">
+        <!-- GitHub 链接 -->
         <a
           v-if="$config.github"
           :href="$config.github"
@@ -31,6 +38,7 @@
             ></path>
           </svg>
         </a>
+        <!-- 切换主题按钮 -->
         <button
           @click="toggleDarkMode"
           class="ml-4 text-gray-900 dark:text-gray-300"
@@ -54,7 +62,6 @@ export default {
   data() {
     return {
       isDarkMode: false,
-      config: __USER_CONFIG__,
     }
   },
   mounted() {
@@ -76,5 +83,5 @@ export default {
 </script>
 
 <style scoped>
-/* 添加需要的额外样式 */
+/* 添加移动端适配的样式 */
 </style>
